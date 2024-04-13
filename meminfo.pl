@@ -60,7 +60,18 @@ sub print_slot {
 }
 
 foreach (sort keys %sets) {
-	printf "Set %d:\n", $_;
+	if (m/^[0-9]+$/) {
+		printf("Set %d:\n", $_);
+	}
+	elsif ($_ eq "None") {
+		if (length(keys %sets) > 1) {
+			print "No set defined:\n";
+		}
+	}
+	else {
+		warn "Unexpected value '$_' in set";
+	}
+
 	my $set = $sets{$_};
 	foreach my $entries (@$set) {
 		print_slot($entries->{Locator});
