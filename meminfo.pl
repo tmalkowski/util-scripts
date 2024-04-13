@@ -6,19 +6,6 @@ use warnings;
 # Author: Tony Malkowski <tony@txstate.edu>
 # Also see dmidecode_json.pl, which this is based on.
 
-BEGIN {
-	for my $module (qw( JSON::XS JSON::PP JSON )) {
-		next if defined &encode_json;
-		eval {
-			(my $file = $module) =~ s{::}{/}g; # Convert module name to file path
-			require "$file.pm";                # Attempt to load the module
-			$module->import('encode_json');    # Import 'encode_json'
-		};
-	}
-
-	die "No JSON libraries found" unless defined &encode_json;
-}
-
 die "Must run as root" unless $ENV{USER} eq "root";
 
 # check for vmware devices
@@ -89,7 +76,6 @@ foreach (sort keys %sets) {
 	}
 	print "\n";
 }
-		#print encode_json($dmi->{records});
 
 
 
